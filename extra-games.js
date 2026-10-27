@@ -88,7 +88,7 @@ const ExtraGames=(()=>{
  };
  function unitAmount(t){return ComboEngine.GAMES[t.game].price*(isExtra(t.game)?multiple(t.multiplier,t.game):1);}
  ComboEngine.amount=(cart,period=1)=>cart.reduce((n,t)=>n+unitAmount(t)*period,0);
- function label(t){if(t.game==='bingo')return `BINGO賓果 ${t.kind==='normal'?t.numbers.length+'星':t.kind==='super'?'超級獎號':specialNames[t.kind]}｜${t.numbers.map(n=>pad(n)).join(' ')} · ${t.multiplier} 倍`;
+ function label(t){if(t.game==='bingo')return `BINGO賓果 ${t.kind==='normal'?t.numbers.length+'星':t.kind==='super'?'超級獎號':specialNames[t.kind]}｜${t.numbers.map(n=>pad(n)).join('、')} · ${t.multiplier} 倍`;
   return `${ComboEngine.GAMES[t.game].name}｜${t.numbers.join('')} · ${t.multiplier} 倍`;
  }
  return {isExtra,multiple,positions,permutations,randomDigits,stars,bingo,build,decode,unitAmount,label,specialNames};

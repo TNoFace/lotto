@@ -19,6 +19,7 @@ function updateWheels(){const previous=$('smartChoice').value;const select=$('sm
 function renderMeals(){const game=$('comboGame').value,available=ComboEngine.PACKAGES.filter(p=>p.game===game);if(!available.some(p=>p.id===selectedMeal))selectedMeal=available[0].id;$('mealCards').replaceChildren();
  for(const p of available){const button=document.createElement('button');button.className='meal-card';button.setAttribute('aria-pressed',String(p.id===selectedMeal));const title=document.createElement('strong');title.textContent=p.name;const price=document.createElement('b');price.textContent=money(p.price);const note=document.createElement('span');note.textContent=p.note;button.append(title,price,note);button.onclick=()=>{selectedMeal=p.id;invalidatePreview();renderMeals();};$('mealCards').append(button);}}
 function updateComboFields(){const m=$('comboMode').value,game=$('comboGame').value;
+ $('comboGenerate').hidden=m==='meal';
  if(!$('advancedPanel').hidden)updateAdvancedHeader();
  $('comboDescription').textContent=descriptions[m];
  for(const [id,show] of [['poolFields',!['columns','branch','meal'].includes(m)],['fixedFields',['banker','branch'].includes(m)],['customFields',m==='custom'],['smartFields',m==='smart'],['columnFields',m==='columns'],['mealFields',m==='meal'],['secondFields',game==='638'&&m!=='meal'],['addonsFields',game!=='638'&&m!=='meal']])$(id).hidden=!show;
@@ -47,7 +48,7 @@ $('poolRandom').onclick=async()=>{
  $('comboMessage').textContent='已快選一般單注號碼'+(game==='638'?'（含第二區）':'')+'，可調整後預覽；樂合彩依勾選項目加購。';
 };
 $('poolAll').onclick=()=>{$('comboPool').value=Array.from({length:ComboEngine.GAMES[$('comboGame').value].max},(_,i)=>pad(i+1)).join('、');invalidatePreview();updateWheels();};
-function ticketText(t){if(ExtraGames.isExtra(t.game))return ExtraGames.label(t);const g=ComboEngine.GAMES[t.game];return `${g.name}${t.fun?` ${t.fun}合`:''}｜${t.numbers.map(pad).join(' ')}${t.second?` ＋ 第二區 ${pad(t.second)}`:''}`;}
+function ticketText(t){if(ExtraGames.isExtra(t.game))return ExtraGames.label(t);const g=ComboEngine.GAMES[t.game];return `${g.name}${t.fun?` ${t.fun}合`:''}｜${t.numbers.map(pad).join('、')}${t.second?` ＋ 第二區 ${pad(t.second)}`:''}`;}
 function ticketRows(tickets,box){box.replaceChildren();for(const [i,t]of tickets.slice(0,50).entries()){const row=document.createElement('div');row.className='ticket-row';const index=document.createElement('span');index.textContent=String(i+1).padStart(3,'0');const value=document.createElement('span');value.textContent=ticketText(t);row.append(index,value);box.append(row);}if(tickets.length>50){const note=document.createElement('p');note.className='tiny';note.textContent=`畫面僅列前 50 注，其餘 ${tickets.length-50} 注會一併加入、匯出與產生 QR。`;box.append(note);}}
 $('comboGenerate').onclick=async()=>{
  const revision=previewRevision;const button=$('comboGenerate');button.disabled=true;$('comboMessage').textContent='正在計算組合…';
