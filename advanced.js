@@ -22,7 +22,7 @@ function updateComboFields(){const m=$('comboMode').value,game=$('comboGame').va
  if(!$('advancedPanel').hidden)updateAdvancedHeader();
  $('comboDescription').textContent=descriptions[m];
  for(const [id,show] of [['poolFields',!['columns','branch','meal'].includes(m)],['fixedFields',['banker','branch'].includes(m)],['customFields',m==='custom'],['smartFields',m==='smart'],['columnFields',m==='columns'],['mealFields',m==='meal'],['secondFields',game==='638'&&m!=='meal'],['addonsFields',game!=='638'&&m!=='meal']])$(id).hidden=!show;
- $('comboPool').placeholder=`例如：${Array.from({length:8},(_,i)=>pad(i+1)).join(' ')}`;
+ $('comboPool').placeholder=`例如：${Array.from({length:8},(_,i)=>pad(i+1)).join('、')}`;
  invalidatePreview();updateWheels();renderMeals();
 }
 function addColumn(numbers='',take=1,required=false){if($('columnRows').children.length>=10){toast('最多設定十柱');return;}const row=document.createElement('div');row.className='column-row';
@@ -40,13 +40,13 @@ $('poolRandom').onclick=async()=>{
  if($('comboMode').value==='meal'){if($('comboGenerate').disabled)return;$('poolRandom').disabled=true;try{await $('comboGenerate').onclick();}finally{$('poolRandom').disabled=false;}return;}
  const game=$('comboGame').value,g=ComboEngine.GAMES[game];
  $('comboMode').value='chain';updateComboFields();
- $('comboPool').value=ComboEngine.sample(Array.from({length:g.max},(_,i)=>i+1),g.size).map(pad).join(' ');
+ $('comboPool').value=ComboEngine.sample(Array.from({length:g.max},(_,i)=>i+1),g.size).map(pad).join('、');
  if(game==='638'){$('comboSecond').value=String(ComboEngine.sample([1,2,3,4,5,6,7,8],1)[0]);$('secondMode').value='cross';}
  $('comboPool').dispatchEvent(new Event('input',{bubbles:true}));
  $('comboMode').dispatchEvent(new Event('change',{bubbles:true}));
  $('comboMessage').textContent='已快選一般單注號碼'+(game==='638'?'（含第二區）':'')+'，可調整後預覽；樂合彩依勾選項目加購。';
 };
-$('poolAll').onclick=()=>{$('comboPool').value=Array.from({length:ComboEngine.GAMES[$('comboGame').value].max},(_,i)=>pad(i+1)).join(' ');invalidatePreview();updateWheels();};
+$('poolAll').onclick=()=>{$('comboPool').value=Array.from({length:ComboEngine.GAMES[$('comboGame').value].max},(_,i)=>pad(i+1)).join('、');invalidatePreview();updateWheels();};
 function ticketText(t){if(ExtraGames.isExtra(t.game))return ExtraGames.label(t);const g=ComboEngine.GAMES[t.game];return `${g.name}${t.fun?` ${t.fun}合`:''}｜${t.numbers.map(pad).join(' ')}${t.second?` ＋ 第二區 ${pad(t.second)}`:''}`;}
 function ticketRows(tickets,box){box.replaceChildren();for(const [i,t]of tickets.slice(0,50).entries()){const row=document.createElement('div');row.className='ticket-row';const index=document.createElement('span');index.textContent=String(i+1).padStart(3,'0');const value=document.createElement('span');value.textContent=ticketText(t);row.append(index,value);box.append(row);}if(tickets.length>50){const note=document.createElement('p');note.className='tiny';note.textContent=`畫面僅列前 50 注，其餘 ${tickets.length-50} 注會一併加入、匯出與產生 QR。`;box.append(note);}}
 $('comboGenerate').onclick=async()=>{

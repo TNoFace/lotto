@@ -1,0 +1,15 @@
+﻿發財專線：GitHub Pages 部署版
+
+號碼池顯示範例：02、12、15、20、26、29
+
+部署步驟
+1. 解壓縮 ZIP。
+2. 打開解壓縮後的資料夾，選取裡面的所有檔案與 vendor 資料夾，上傳至 GitHub 儲存庫最外層。不要直接上傳 ZIP，也不要多包一層資料夾。
+3. 儲存庫首頁必須直接看得到 index.html，並保留 vendor 資料夾。
+4. Settings → Pages：Source 選 Deploy from a branch，Branch 選 main，Folder 選 /(root)，按 Save。
+5. 等 Actions 的 pages build and deployment 完成，再回 Pages 點 Visit site。
+
+可直接雙擊 index.html 本機預覽。
+一般免費方案使用公開儲存庫。
+此檔案包已包含 .nojekyll，可一併上傳。
+網站程式不需安裝套件或執行建置指令。

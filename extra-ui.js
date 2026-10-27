@@ -8,7 +8,7 @@ document.querySelector('.tabs').insertAdjacentHTML('afterend',`
   <div class="advanced-fields"><label>賓果玩法<select id="bingoKind"><option value="normal">一般星數選號</option><option value="super">超級獎號</option><option value="special">猜大小／猜單雙</option></select></label><label id="bingoStarField">星數<select id="bingoStars"></select></label></div>
   <div id="bingoNormalFields"><label class="field-label" for="bingoMethod">賓果組合方式</label><select id="bingoMethod"><option value="basic">一般選號（恰選指定星數）</option><option value="chain">連碰包牌</option><option value="columns">立柱／主支立柱</option><option value="smart">聰明包牌</option><option value="custom">自選包牌</option><option value="system">系統包牌（全部組合）</option><option value="banker">膽拖（固定主支）</option><option value="branch">主支全餐</option></select></div>
   <p id="bingoRule" class="rule-note"></p>
-  <div id="bingoPoolFields"><label class="field-label" for="bingoPool">賓果號碼／號碼池（01～80）</label><textarea id="bingoPool" rows="3">01 02 03</textarea><div class="pool-tools"><span class="tiny" id="bingoPoolCount"></span><div><button id="bingoAll" class="text-btn">全選80碼</button><button id="bingoClear" class="text-btn muted">清除</button></div></div><details class="bingo-grid-details"><summary>開啟 80 碼選號盤</summary><div id="bingoGrid" class="number-grid"></div></details></div>
+  <div id="bingoPoolFields"><label class="field-label" for="bingoPool">賓果號碼／號碼池（01～80）</label><textarea id="bingoPool" rows="3">01、02、03</textarea><div class="pool-tools"><span class="tiny" id="bingoPoolCount"></span><div><button id="bingoAll" class="text-btn">全選80碼</button><button id="bingoClear" class="text-btn muted">清除</button></div></div><details class="bingo-grid-details"><summary>開啟 80 碼選號盤</summary><div id="bingoGrid" class="number-grid"></div></details></div>
   <div id="bingoFixedFields" hidden><label class="field-label" for="bingoFixed">固定主支／膽碼</label><input id="bingoFixed" placeholder="例如：01 02" type="text"></div>
   <div id="bingoCustomFields" hidden><label class="field-label" for="bingoCount">自選包牌組數</label><input id="bingoCount" type="number" value="10" min="1" max="10000"></div>
   <div id="bingoSmartFields" hidden><label class="field-label" for="bingoSmart">輪盤參數</label><select id="bingoSmart"></select><p class="tiny">沿用原軟體資料表；中N保M是條件覆蓋標示，全表覆蓋性未逐一驗證，不是中獎保證。</p></div>
@@ -52,7 +52,7 @@ function buildPositions(){const k=$('extraGame').value==='star4'?4:3,names=k===4
  $('starDigits').value=k===4?'0011':'011';
 }
 for(let i=1;i<=10;i++){const o=document.createElement('option');o.value=i;o.textContent=i+' 星';$('bingoStars').append(o);}$('bingoStars').value='3';
-for(let n=1;n<=80;n++){const b=document.createElement('button');b.className='number';b.dataset.number=n;b.textContent=pad(n);b.setAttribute('aria-label','賓果號碼 '+pad(n));b.onclick=()=>{let pool;try{pool=parsePool($('bingoPool').value);}catch{pool=[];}const set=new Set(pool);set.has(n)?set.delete(n):set.add(n);$('bingoPool').value=[...set].sort((a,b)=>a-b).map(pad).join(' ');clearExtraPreview();fillBingoWheels();};$('bingoGrid').append(b);}
+for(let n=1;n<=80;n++){const b=document.createElement('button');b.className='number';b.dataset.number=n;b.textContent=pad(n);b.setAttribute('aria-label','賓果號碼 '+pad(n));b.onclick=()=>{let pool;try{pool=parsePool($('bingoPool').value);}catch{pool=[];}const set=new Set(pool);set.has(n)?set.delete(n):set.add(n);$('bingoPool').value=[...set].sort((a,b)=>a-b).map(pad).join('、');clearExtraPreview();fillBingoWheels();};$('bingoGrid').append(b);}
 function addBingoColumn(numbers='',take=1){if($('bingoColumnRows').children.length>=10){toast('最多十柱');return;}const row=document.createElement('div');row.className='column-row';const label=document.createElement('label');label.textContent='賓果本柱號碼';const input=document.createElement('input');input.type='text';input.className='bingo-column-numbers';input.value=numbers;label.append(input);const countLabel=document.createElement('label');countLabel.textContent='取幾碼';const count=document.createElement('input');count.type='number';count.min='1';count.max='10';count.value=take;count.className='bingo-column-take';countLabel.append(count);const main=document.createElement('label');main.className='column-main';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.className='bingo-column-required';main.append(checkbox,document.createTextNode('主支'));const remove=document.createElement('button');remove.className='text-btn muted';remove.textContent='移除';remove.onclick=()=>{row.remove();clearExtraPreview();};row.append(label,countLabel,main,remove);row.oninput=clearExtraPreview;$('bingoColumnRows').append(row);clearExtraPreview();}
 $('bingoAddColumn').onclick=()=>addBingoColumn();addBingoColumn('01 02 03 04',2);addBingoColumn('05 06 07 08',1);
 $('extraGame').onchange=()=>{buildPositions();extraFields();};for(const id of ['bingoKind','bingoStars','bingoMethod','starMethod'])$(id).onchange=extraFields;
@@ -68,7 +68,7 @@ $('extraQuick').onclick=()=>{
    $('bingoSpecialFields').dispatchEvent(new Event('change',{bubbles:true}));
   }else{
    if(kind==='normal'){$('bingoMethod').value='basic';$('bingoMethod').dispatchEvent(new Event('change',{bubbles:true}));}
-   $('bingoPool').value=ComboEngine.sample(Array.from({length:80},(_,i)=>i+1),kind==='super'?1:Number($('bingoStars').value)).map(pad).join(' ');
+   $('bingoPool').value=ComboEngine.sample(Array.from({length:80},(_,i)=>i+1),kind==='super'?1:Number($('bingoStars').value)).map(pad).join('、');
    $('bingoPool').dispatchEvent(new Event('input',{bubbles:true}));
   }
  }else{
@@ -78,7 +78,7 @@ $('extraQuick').onclick=()=>{
  }
  $('extraMessage').textContent='已快選一組號碼，可手動調整後點「產生選號並預覽」。';
 };
-$('bingoAll').onclick=()=>{$('bingoPool').value=Array.from({length:80},(_,i)=>pad(i+1)).join(' ');clearExtraPreview();fillBingoWheels();};$('bingoClear').onclick=()=>{$('bingoPool').value='';clearExtraPreview();fillBingoWheels();};
+$('bingoAll').onclick=()=>{$('bingoPool').value=Array.from({length:80},(_,i)=>pad(i+1)).join('、');clearExtraPreview();fillBingoWheels();};$('bingoClear').onclick=()=>{$('bingoPool').value='';clearExtraPreview();fillBingoWheels();};
 $('extraGenerate').onclick=async()=>{const revision=extraRevision;const button=$('extraGenerate');button.disabled=true;$('extraMessage').textContent='正在產生選號…';await new Promise(r=>setTimeout(r,0));
  try{const game=$('extraGame').value,multiplier=Number($('extraMultiplier').value);let tickets;
   if(game==='bingo'){

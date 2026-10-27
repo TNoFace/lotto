@@ -42,7 +42,7 @@
   const visible=!$('poolFields').hidden;
   grid.hidden=!visible;
   if(!visible)return;
-  if(grid.children.length!==max){grid.replaceChildren();for(let n=1;n<=max;n++){const b=document.createElement('button');b.textContent=pad(n);b.className='console-number';b.dataset.number=n;b.setAttribute('aria-label','包牌號碼 '+pad(n));b.onclick=()=>{let values;try{values=parsePool($('comboPool').value);}catch{values=[];}const set=new Set(values);set.has(n)?set.delete(n):set.add(n);$('comboPool').value=[...set].sort((a,b)=>a-b).map(pad).join(' ');dispatch($('comboPool'),'input');syncPoolGrid();};grid.append(b);}}
+  if(grid.children.length!==max){grid.replaceChildren();for(let n=1;n<=max;n++){const b=document.createElement('button');b.textContent=pad(n);b.className='console-number';b.dataset.number=n;b.setAttribute('aria-label','包牌號碼 '+pad(n));b.onclick=()=>{let values;try{values=parsePool($('comboPool').value);}catch{values=[];}const set=new Set(values);set.has(n)?set.delete(n):set.add(n);$('comboPool').value=[...set].sort((a,b)=>a-b).map(pad).join('、');dispatch($('comboPool'),'input');syncPoolGrid();};grid.append(b);}}
   let values=[];try{values=parsePool($('comboPool').value);}catch{}
   grid.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(values.includes(+b.dataset.number))));
  }
@@ -70,7 +70,7 @@
  document.querySelectorAll('[data-method]').forEach(b=>b.onclick=()=>{
   const method=b.dataset.method;
   if(isExtra()&&$('extraGame').value==='bingo'){setValue('bingoKind','normal');setValue('bingoMethod',method);}
-  else {if(!isAdvanced()){const nums=[...selected].map(pad).join(' ');comboMode();setValue('comboGame','649');$('comboPool').value=nums;}setValue('comboMode',method);}
+  else {if(!isAdvanced()){const nums=[...selected].map(pad).join('、');comboMode();setValue('comboGame','649');$('comboPool').value=nums;}setValue('comboMode',method);}
   sync();
  });
  $('consoleClear').onclick=()=>{$('clearBtn').click();};
