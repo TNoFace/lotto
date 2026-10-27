@@ -101,7 +101,19 @@
  document.addEventListener('change',sync);document.addEventListener('input',e=>{if(e.target.id==='comboPool')syncPoolGrid();});
  for(const id of ['chooseTab','advancedTab','extraTab','readTab'])$(id).addEventListener('click',()=>{activeGame=isExtra()?$('extraGame').value:isAdvanced()?$('comboGame').value:'649';sync();drawPages();});
  for(const id of ['poolRandom','poolAll','extraQuick','bingoAll','bingoClear','addBtn','comboAdd','extraAdd'])$(id).addEventListener('click',sync);
- document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台';
+ document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台 · v2026.10.27.3';
+ // Format completed edits without moving the cursor while the user is typing.
+ document.addEventListener('focusout',e=>{
+  const input=e.target;
+  if(!input.matches('#comboPool,#comboFixed,#comboSecond,#bingoPool,#bingoFixed,.column-numbers,.bingo-column-numbers,.star-position-input'))return;
+  if(!input.value.trim()||!/^[\d\s,，、;；]+$/.test(input.value))return;
+  const numbers=input.value.trim().split(/[\s,，、;；]+/).filter(Boolean).map(Number);
+  const max=input.matches('.star-position-input')?9:input.id==='comboSecond'?8:input.id.startsWith('bingo')||input.matches('.bingo-column-numbers')?80:ComboEngine.GAMES[$('comboGame').value].max;
+  const min=input.matches('.star-position-input')?0:1;
+  if(numbers.some(n=>!Number.isInteger(n)||n<min||n>max))return;
+  const formatted=numbers.map(n=>input.matches('.star-position-input')?String(n):pad(n)).join('、');
+  if(formatted!==input.value){input.value=formatted;dispatch(input,'input');}
+ });
  sync();drawPages();
 })();
 
