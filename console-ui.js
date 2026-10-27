@@ -86,7 +86,7 @@
  document.addEventListener('change',sync);document.addEventListener('input',e=>{if(e.target.id==='comboPool')syncPoolGrid();});
  for(const id of ['chooseTab','advancedTab','extraTab','readTab'])$(id).addEventListener('click',()=>{activeGame=isExtra()?$('extraGame').value:isAdvanced()?$('comboGame').value:'649';sync();drawPages();});
  for(const id of ['poolRandom','poolAll','extraQuick','bingoAll','bingoClear','addBtn','comboAdd','extraAdd'])$(id).addEventListener('click',sync);
- document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台 · v2026.10.27.6';
+ document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台 · v2026.10.27.7';
  // Format completed edits without moving the cursor while the user is typing.
  document.addEventListener('focusout',e=>{
   const input=e.target;
