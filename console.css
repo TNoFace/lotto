@@ -17,3 +17,7 @@ main{margin:0 var(--dock) 0 var(--left);padding:12px 8px 20px;max-width:none}mai
 @media(min-width:801px) and (max-height:780px){.action-dock{gap:9px;top:112px}.action-dock>button{min-height:49px;padding:11px 3px;font-size:22px}.action-dock #consoleAuto span{font-size:9px}.game-tile{min-height:76px}}
 
 .console-quick-actions{display:flex;gap:12px;margin-top:28px;align-items:stretch}.console-quick-actions>.console-quick{flex:1;background:#49a640;color:white;padding:17px 20px;border-radius:12px;font-size:27px;font-weight:700;box-shadow:0 5px 7px #84791438}.console-quick-actions>.primary.wide{flex:1;width:auto;margin:0;font-size:20px;align-self:stretch}.console-quick:hover{background:#349833}@media(max-width:800px){.console-quick-actions{gap:9px;margin-top:20px}.console-quick-actions>.console-quick{font-size:23px;padding:14px}.console-quick-actions>.primary{font-size:17px;padding:14px 9px}}
+
+#readTab{display:none!important}@media(max-width:800px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+body{--dock:0px!important}.console-global-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin:0 0 10px}.console-global-actions>button{min-height:40px;border:1px solid #c4c77c;border-radius:9px;padding:8px 14px;background:#ffffdb;color:#41452d;font-size:13px}.console-global-actions #consoleAuto[aria-pressed=true]{background:#49a640;color:white}.console-global-actions #consoleAuto span{font-size:12px;margin-left:4px}@media(max-width:800px){.console-global-actions{gap:8px}.console-global-actions>button{min-height:44px;font-size:14px}}
