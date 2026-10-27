@@ -2,7 +2,7 @@
 (()=>{
  const rail=document.querySelector('.rail');
  rail.innerHTML=`<a class="console-brand" href="#" aria-label="選號工作台首頁">發財專線<span>選號工作台</span><b aria-hidden="true">福</b></a><nav class="game-menu" aria-label="彩種"><button data-game="meal" class="game-tile meal-logo">套餐 <span>全餐・組合</span></button><button data-game="bingo" class="game-tile bingo-logo"><i>BINGO</i><span>賓果</span></button><button data-game="539" class="game-tile today-logo"><small>今彩</small>539</button><button data-game="649" class="game-tile lotto-logo">大<span>樂透</span></button><button data-game="638" class="game-tile power-logo">威力<span>彩</span></button><button data-game="39" class="game-tile fun-logo"><b>39</b>樂合彩<small>加購</small></button><button data-game="49" class="game-tile fun-logo purple"><b>49</b>樂合彩<small>加購</small></button><button data-game="star3" class="game-tile star-logo"><b>3</b>星彩</button><button data-game="star4" class="game-tile star-logo"><b>4</b>星彩</button></nav>`;
- document.body.insertAdjacentHTML('afterbegin',`<div class="console-top"><div id="draftTabs" class="draft-tabs" role="group" aria-label="選號草稿頁"></div><strong>發財專線 <small>選號工作台</small></strong><div class="console-tools"><button id="consoleRead" title="讀取 QR 選號" aria-label="讀取 QR">▦</button><button id="consoleHelp" title="驗證說明" aria-label="驗證說明">ⓘ</button><button id="consoleFull" title="切換全螢幕" aria-label="切換全螢幕">⛶</button></div></div>`);
+ document.body.insertAdjacentHTML('afterbegin',`<div class="console-top"><div id="draftTabs" class="draft-tabs" role="group" aria-label="選號草稿頁"></div><strong>發財專線 <small>選號工作台</small></strong><div class="console-tools"><button id="consoleFull" title="切換全螢幕" aria-label="切換全螢幕">⛶</button></div></div>`);
  document.body.insertAdjacentHTML('beforeend',`<aside class="action-dock" aria-label="選號操作"><button id="consoleClearAll">全部清除</button><button data-method="columns">連碰立柱</button><button data-method="smart">聰明包牌</button><button data-method="custom">自選包牌</button><button data-method="system">系統包牌</button><button data-method="branch">主支全餐</button><button id="consoleAdd">加至清單</button><button id="consoleAuto" aria-pressed="false">自動清除<span>關閉</span></button></aside>`);
  const top=document.querySelector('.console-top');
  const basicEditor=document.querySelector('#choosePanel .editor');
@@ -84,7 +84,6 @@
   else {if(!$('addBtn').disabled)$('addBtn').click();else toast('請先選好六個號碼');}
   sync();
  };
- $('consoleRead').onclick=()=>{$('readTab').click();sync();};$('consoleHelp').onclick=()=>$('aboutDialog').showModal();
  $('consoleFull').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{toast('此瀏覽器目前無法切換全螢幕');}};
  function stepper(id){const select=$(id),parent=select.parentElement;parent.classList.add('console-period');parent.querySelector('label').textContent='期';const minus=document.createElement('button'),plus=document.createElement('button');minus.textContent='−';plus.textContent='＋';minus.setAttribute('aria-label','減少一期');plus.setAttribute('aria-label','增加一期');minus.onclick=()=>{select.value=Math.max(1,Number(select.value)-1);dispatch(select,'change');};plus.onclick=()=>{select.value=Math.min(10,Number(select.value)+1);dispatch(select,'change');};select.before(minus);select.after(plus);}
  stepper('period');stepper('comboPeriod');
@@ -101,7 +100,7 @@
  document.addEventListener('change',sync);document.addEventListener('input',e=>{if(e.target.id==='comboPool')syncPoolGrid();});
  for(const id of ['chooseTab','advancedTab','extraTab','readTab'])$(id).addEventListener('click',()=>{activeGame=isExtra()?$('extraGame').value:isAdvanced()?$('comboGame').value:'649';sync();drawPages();});
  for(const id of ['poolRandom','poolAll','extraQuick','bingoAll','bingoClear','addBtn','comboAdd','extraAdd'])$(id).addEventListener('click',sync);
- document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台 · v2026.10.27.3';
+ document.querySelector('footer').firstElementChild.textContent='發財專線 · 選號工作台 · v2026.10.27.4';
  // Format completed edits without moving the cursor while the user is typing.
  document.addEventListener('focusout',e=>{
   const input=e.target;
